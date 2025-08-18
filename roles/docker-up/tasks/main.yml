@@ -6,8 +6,8 @@
 
 - name: Login Dockerhub 
   community.docker.docker_login:
-    username: "felipefigfaria"
-    password: "dckr_pat_0mfb6yl1u-JHTf_5MJ0OQI-wCpg"
+    username: "your_username"
+    password: "your_pat"
     registry_url: https://index.docker.io/v1/
 
 - name: Build da imagem
