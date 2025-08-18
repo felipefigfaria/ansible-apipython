@@ -1,0 +1,8 @@
+---
+- hosts: API-UBUNTU
+  roles: 
+    - pacotes
+    - docker
+    - docker-compose
+    - docker-up
+  become: yes

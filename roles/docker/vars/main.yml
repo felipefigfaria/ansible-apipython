@@ -1,0 +1,6 @@
+---
+docker_packages:
+  - ca-certificates
+  - curl
+  - gnupg
+  - lsb-release

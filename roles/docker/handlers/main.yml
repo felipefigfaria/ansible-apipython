@@ -1,0 +1,4 @@
+---
+- name: Reiniciar sessão
+  debug:
+    msg: "Reinicie sua sessão para que as permissões do grupo docker sejam aplicadas."

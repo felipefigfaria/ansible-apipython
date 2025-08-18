@@ -1,0 +1,51 @@
+---
+# - name: Parar e remover containers existentes
+#   ansible.builtin.shell:
+#     cmd: docker stop $(docker ps -aq) && docker rm -f $(docker ps -aq) && docker rmi -f $(docker images -q)
+
+- name: Parar o serviço Docker
+  ansible.builtin.service:
+    name: docker
+    state: stopped
+    enabled: no
+
+- name: Remover pacotes Docker
+  ansible.builtin.apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+    state: absent
+    purge: yes
+    autoremove: yes
+
+- name: Remover repositório Docker
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+    state: absent
+    filename: docker
+
+- name: Remover chave GPG do Docker
+  ansible.builtin.apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: absent
+
+- name: Remover arquivos residuais do Docker
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /var/lib/docker
+    - /var/lib/containerd
+
+- name: Remover usuário do grupo docker
+  ansible.builtin.command: "gpasswd -d {{ ansible_user_id }} docker"
+  ignore_errors: yes
+  notify: Reiniciar sessão
+
+- name: Deletar diretório do projeto
+  ansible.builtin.file:
+    path: "/home/sig/api-python"
+    state: absent
+    
+    

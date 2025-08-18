@@ -1,0 +1,5 @@
+---
+- name: Verifica a instalação do docker-compose
+  ansible.builtin.command: "{{ docker_compose_path }} --version"
+  become: true
+  changed_when: false

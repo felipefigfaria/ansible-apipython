@@ -1,0 +1,31 @@
+---
+- name: Fazer clone do repositório
+  ansible.builtin.command: git clone https://github.com/felipefigfaria/api-python.git
+  args:
+    chdir: /home/sig
+
+- name: Login Dockerhub 
+  community.docker.docker_login:
+    username: "felipefigfaria"
+    password: "dckr_pat_0mfb6yl1u-JHTf_5MJ0OQI-wCpg"
+    registry_url: https://index.docker.io/v1/
+
+- name: Build da imagem
+  ansible.builtin.command: docker build -t api-python .
+  args:
+    chdir: /home/sig/api-python
+
+- name: Tag da imagem
+  ansible.builtin.command: docker tag api-python felipefigfaria/api-python:1.0
+  args:
+    chdir: /home/sig/api-python
+
+- name: Push da imagem para o Docker Hub
+  ansible.builtin.command: docker push felipefigfaria/api-python:1.0
+  args:
+    chdir: /home/sig/api-python
+
+- name: Subir API
+  ansible.builtin.command: docker-compose up -d
+  args:
+    chdir: /home/sig/api-python

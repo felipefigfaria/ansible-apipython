@@ -1,0 +1,11 @@
+---
+- name: Atualizar cache e pacotes no Ubuntu
+  ansible.builtin.apt:
+    update_cache: yes
+    upgrade: dist
+  when: ansible_os_family == "Debian"
+
+- name: Atualizar cache e pacotes no Rocky
+  ansible.builtin.yum:
+    update_cache: yes
+  when: ansible_os_family == "RedHat"

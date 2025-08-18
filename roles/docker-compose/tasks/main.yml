@@ -1,0 +1,17 @@
+---
+- name: Certificar que o curl está instalado
+  ansible.builtin.package:
+    name: curl
+    state: present
+
+- name: Download do binário do Docker Compose
+  ansible.builtin.get_url:
+    url: "https://github.com/docker/compose/releases/download/v{{ docker_compose_version }}/docker-compose-{{ ansible_system | lower }}-{{ ansible_architecture }}"
+    dest: "{{ docker_compose_path }}"
+    mode: '0755'
+
+- name: Criar link simbólico para o docker-compose 
+  ansible.builtin.file:
+    src: "{{ docker_compose_path }}"
+    dest: "/usr/bin/docker-compose"
+    state: link

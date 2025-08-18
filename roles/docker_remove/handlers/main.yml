@@ -1,0 +1,4 @@
+---
+- name: Reiniciar sessão
+  debug:
+    msg: "Reinicie sua sessão para que a remoção do grupo docker seja aplicada."
